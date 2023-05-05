@@ -8,9 +8,9 @@ import "./toastr2.css"
 import { Tween, Timeline } from 'react-gsap';
 
 // Initialize the Amazon Cognito credentials provider
-AWS.config.region = "us-east-2"; // Region
+AWS.config.region = process.env.region; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: "us-east-2:d3b6dca1-ae19-4711-8453-ebdb7560d6ee",
+  IdentityPoolId: process.env.REACT_APP_identityPoolId,
 });
 
 const PUT_SIGNUP = gql`
@@ -33,10 +33,10 @@ const Cognitosignin = (props) => {
   // if (loading) return <div>Loading...</div>;
   // if (data) console.log("graph data" + JSON.stringify(data));
 
-  var userPoolId = "us-east-2_9gOOnd3xR";
-  var clientId = "67l6l2fuptqdfsrntbho33sk3n";
-  var region = "us-east-2";
-  var identityPoolId ="us-east-2:d3b6dca1-ae19-4711-8453-ebdb7560d6ee";
+  var userPoolId = process.env.REACT_APP_userPoolId
+  var clientId = process.env.REACT_APP_clientId
+  var region = process.env.region
+  var identityPoolId = process.env.REACT_APP_identityPoolId
 
   var cognitoUser;
   var idToken;
