@@ -8,14 +8,13 @@ import {
   CognitoUserPool,
 } from "amazon-cognito-identity-js";
 import AWS from "aws-sdk";
-import "./toastr2.css"
+import "./toastr2.css";
 import { Tween } from "react-gsap";
 
 export default () => {
-  const [loginbox, setloginbox] = useState(false);
-  // const [logged, setlogged] = useState(false);
   const [css, setcss] = useState(false);
   const [showloginform, setshowloginform] = useState(false);
+  const [showemailchangeform, setshowemailchangeform] = useState(false);
   const REACT_APP_REGION = "us-east-2";
   const REACT_APP_userPoolId = "us-east-2_9gOOnd3xR";
   const REACT_APP_clientId = "67l6l2fuptqdfsrntbho33sk3n";
@@ -42,17 +41,9 @@ export default () => {
     getCurrentLoggedInSession();
   }
 
-  // const handleClick = async (e) => {
-  //   console.log("clicked " + message)
-  //   setmessage(!message);
-  //   setcss(!css)
-  //
-  // }
-  //
-
-  useEffect(()=>{
-    getCognitoIdentityCredentials()
-  },[]);
+  useEffect(() => {
+    getCognitoIdentityCredentials();
+  }, []);
 
   async function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -61,19 +52,25 @@ export default () => {
   function switchToVerificationCodeView() {
     console.log("switch to verif code view");
     $("#emailInput").hide();
-    $("#userNameInput").hide();
+    $("#userNameInput").show();
     $("#passwordInput").hide();
     $("#confirmPasswordInput").hide();
     $("#logInButton").hide();
     $("#registerButton").hide();
     $("#bucketNameInput").hide();
     $("#verificationCodeInput").show();
+    $("#forgotpassword").hide();
     $("#verifyCodeButton").show();
+    $("#notregisteryet").hide();
+    $("#verify").show();
+    $("#resendverifycode").show();
     $("#logOutButton").hide();
   }
 
   function switchToRegisterView() {
     console.log("switch to register view");
+    $("#userNameInput").val("");
+    $("#passwordInput").val("");
     $("#emailInput").show();
     $("#userNameInput").show();
     $("#passwordInput").show();
@@ -81,6 +78,7 @@ export default () => {
     $("#registerButton").show();
     $("#logInButton").hide();
     $("#notregisteryet").hide();
+    $("#userPhoneNumber").show();
     $("#verificationCodeInput").hide();
     $("#backtologin").show();
     $("#verifyCodeButton").hide();
@@ -98,8 +96,11 @@ export default () => {
     $("#passwordInput").show();
     $("#userPhoneNumber").hide();
     $("#notregisteryet").show();
+    $("#forgotpassword").show();
     $("#confirmPasswordInput").hide();
+    $("#resetpassword").hide();
     $("#logInButton").show();
+    $("#resendverifycode").show();
     $("#registerButton").hide();
     $("#verificationCodeInput").hide();
     $("#verifyCodeButton").hide();
@@ -116,6 +117,60 @@ export default () => {
     $("#logOutButton").hide();
     $("#bucketNameInput").show();
     $("#logOutButton").show();
+  }
+
+  function switchtoForgotPasswordConfirmView() {
+    console.log("Switching to forgot password confirm view");
+    $("#emailInput").hide();
+    $("#userNameInput").show();
+    $("#passwordInput").show();
+    $("#userPhoneNumber").hide();
+    $("#logOutButton").hide();
+    $("#bucketNameInput").show();
+    $("#logOutButton").hide();
+    $("#logInButton").hide();
+    $("#notregisteryet").hide();
+    $("#forgotpassword").hide();
+    $("#resetpassword").show();
+  }
+
+  function switchToNewPasswordInput() {
+    console.log("Switching to new password input view");
+    // $("#userNameInput").val("");
+    $("#passwordInput").val("");
+    $("#emailInput").hide();
+    $("#userNameInput").show();
+    $("#passwordInput").show();
+    $("#userPhoneNumber").hide();
+    $("#logOutButton").hide();
+    $("#bucketNameInput").show();
+    $("#verificationCodeInput").show();
+    $("#confirmPasswordInput").show();
+    $("#logOutButton").hide();
+    $("#logInButton").hide();
+    $("#notregisteryet").hide();
+    $("#forgotpassword").hide();
+    $("#resetpassword").show();
+    $("#resetpasswordcognito").show();
+  }
+
+  function changeemail() {
+    console.log("Switching to change password input view");
+    $("#passwordInput").val("");
+    $("#emailInput").hide();
+    $("#userNameInput").show();
+    $("#passwordInput").show();
+    $("#userPhoneNumber").hide();
+    $("#logOutButton").hide();
+    $("#bucketNameInput").hide();
+    $("#verificationCodeInput").hide();
+    $("#confirmPasswordInput").hide();
+    $("#logOutButton").hide();
+    $("#logInButton").hide();
+    $("#notregisteryet").hide();
+    $("#forgotpassword").hide();
+    $("#emailInput").show();
+    $("#resetpasswordcognito").hide();
   }
 
   const loginform = (
@@ -198,10 +253,18 @@ export default () => {
       />
       <input
         id="verifyCodeButton"
-        type="button"
+        type="text"
         className={"button"}
         defaultValue="Verify"
         onClick={() => verifyCode()}
+        style={{ display: "none" }}
+      />
+      <input
+        id="resetpasswordcognito"
+        type="text"
+        className={"button"}
+        defaultValue="Reset"
+        onClick={() => forgotPasswordReset($("#passwordInput").val())}
         style={{ display: "none" }}
       />
       <div>
@@ -211,6 +274,49 @@ export default () => {
           style={{ display: "none" }}
         >
           Back to Login
+        </span>
+      </div>
+      <div>
+        <span
+          id="verify"
+          style={{ display: "none" }}
+          onClick={() => switchToVerificationCodeView()}
+        >
+          Not verified yet?
+        </span>
+      </div>
+      <div>
+        <span id="resendverifycode" onClick={() => resendCognitoVerifyCode()}>
+          Resend verify code?
+        </span>
+      </div>
+      <div>
+        <span id="forgotpassword" onClick={() => forgotPassword()}>
+          Forgot Password?
+        </span>
+      </div>
+      <div>
+        <span
+          id="resetpassword"
+          style={{ display: "none" }}
+          onClick={() => forgotPasswordReset()}
+        >
+          Reset Password
+        </span>
+      </div>
+      <div>
+        <span id="changeemail" onClick={() => changeemail()}>
+          Change Email
+        </span>
+      </div>
+      <div>
+        <span
+          id="changeemailfunction"
+          onClick={() => changeemailfunction()}
+          type="text"
+          className={"button"}
+        >
+          Change Email Function
         </span>
       </div>
     </div>
@@ -223,8 +329,7 @@ export default () => {
       setTimeout(() => {
         toastr.info("signed out");
         switchToLogInView();
-        // setlogged(false)
-        setcss(false)
+        setcss(false);
         setshowloginform(!showloginform);
         document.getElementById("cognitologin").style.display = "none";
       }, "1000");
@@ -236,7 +341,9 @@ export default () => {
         */
   function logIn() {
     console.log("login called");
-    setcss(false)
+    if (cognitoUser) {
+      cognitoUser.signOut();
+    }
     if (!$("#userNameInput").val() || !$("#passwordInput").val()) {
       toastr.error("Please enter Username and Password!");
     } else {
@@ -252,17 +359,10 @@ export default () => {
       };
       cognitoUser = new CognitoUser(userData);
 
-
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
-          var loggedinname = $("#userNameInput").val();
-          // setmessage("Logged in as " + loggedinname);
-
-          // switchToLoggedInView();
           toastr.info("logged in");
-          // loggy(true)
-
-          // idToken = result.getIdToken().getJwtToken();
+          setcss(false);
           getCognitoIdentityCredentials();
           console.log("about to close button");
           handleClick();
@@ -270,6 +370,7 @@ export default () => {
 
         onFailure: function (err) {
           toastr.error("Error: " + err.message);
+          $("#resendverifycode").show();
         },
       });
     }
@@ -302,27 +403,123 @@ export default () => {
     }
   }
 
+  function forgotPassword(
+    username,
+    onSuccess,
+    onFailure,
+    inputVerificationCode
+  ) {
+    let cognitoUser = new CognitoUser({
+      Username: $("#userNameInput").val(),
+      Pool: userPool,
+    });
+
+    cognitoUser.forgotPassword({
+      onSuccess: function (result) {
+        console.log("successful password reset " + JSON.stringify(result));
+        switchToNewPasswordInput();
+      },
+      onFailure: function (err) {
+        console.log("failed to reset password" + err);
+        switchToLogInView();
+      },
+      inputVerificationCode: function (data) {
+        console.log("input code " + JSON.stringify(data));
+        switchToNewPasswordInput();
+      },
+    });
+  }
+
+  function forgotPasswordReset(
+    username,
+    verificationCode,
+    newPassword,
+    callback
+  ) {
+    try {
+      let cognitoUser = new CognitoUser({
+        Username: $("#userNameInput").val(),
+        Pool: userPool,
+      });
+      console.log("cognitouer " + JSON.stringify(cognitoUser));
+      console.log("newpasswor is " + $("#confirmPasswordInput").val());
+      cognitoUser.confirmPassword(
+        $("#verificationCodeInput").val(),
+        $("#confirmPasswordInput").val(),
+        {
+          onSuccess: function (result) {
+            console.log("successful password reset" + JSON.stringify(result));
+            switchToLogInView();
+          },
+          onFailure: function (err) {
+            console.log("failed to reset password" + err);
+            switchToLogInView();
+          },
+        }
+      );
+    } catch (e) {
+      console.log("no cognito user found" + e);
+    }
+  }
   /*
         Starting point for user verification using AWS Cognito with input validation
         */
   function verifyCode() {
-    console.log("verify code reached");
+    console.log("verify code reached ");
     if (!$("#verificationCodeInput").val()) {
-      toastr.error("Please enter verification field!");
+      toastr.error("Please enter verification code!");
     } else {
-
-      cognitoUser.confirmRegistration(
-        $("#verificationCodeInput").val(),
-        true,
-        function (err, result) {
-          if (err) {
-            toastr.error(err.message);
-          } else {
-            console.log("Successfully verified code!");
-            switchToLogInView();
-          }
-        }
+      console.log(
+        "cognito user " +
+          JSON.stringify(cognitoUser) +
+          " code " +
+          $("#verificationCodeInput").val()
       );
+      if (cognitoUser) {
+        cognitoUser.confirmRegistration(
+          $("#verificationCodeInput").val(),
+          true,
+          function (err, result) {
+            if (err) {
+              console.log("error " + err);
+              toastr.error(err.message);
+            } else {
+              console.log("Successfully verified code!");
+              switchToLogInView();
+            }
+          }
+        );
+      } else {
+        try {
+          let cognitoUser = new CognitoUser({
+            Username: $("#userNameInput").val(),
+            Pool: userPool,
+          });
+          console.log(
+            "username for confirmregistration " +
+              $("#userNameInput").val() +
+              "code " +
+              $("#verificationCodeInput").val()
+          );
+          console.log("cognitouer " + JSON.stringify(cognitoUser));
+
+          cognitoUser.confirmRegistration(
+            $("#verificationCodeInput").val(),
+            true,
+            function (err, result) {
+              if (err) {
+                console.log("error confirmregistration " + err);
+                toastr.error(err.message);
+              } else {
+                console.log("Successfully verified code!");
+                switchToLogInView();
+              }
+            }
+          );
+        } catch (e) {
+          console.log("error " + e);
+        }
+      }
     }
   }
 
@@ -351,16 +548,16 @@ export default () => {
 
     var attributeEmail = new CognitoUserAttribute(dataEmail);
 
-    var attributeEmail2 = new CognitoUserAttribute({
-      Name: "phonenumber",
-      Value: phoneNumber,
-    });
+    // var attributeEmail2 = new CognitoUserAttribute({
+    //   Name: "phonenumber",
+    //   Value: phoneNumber,
+    // });
 
     attributeList.push(attributeEmail);
 
     console.log("push to userpool signup");
 
-    REACT_APP_userPoolId.signUp(
+    userPool.signUp(
       username,
       password,
       attributeList,
@@ -378,6 +575,63 @@ export default () => {
         }
       }
     );
+  }
+
+  function changeemailfunction(email, username, password, phoneNumber) {
+    var attributeList = [];
+
+    var dataEmail = {
+      Name: $("#userNameInput").val(),
+      Value: $("#emailInputslider").val(),
+    };
+
+    var attributes = new CognitoUserAttribute(dataEmail);
+
+    if (cognitoUser) {
+      console.log("changing email to " + $("#emailInputslider").val());
+      const cogattributes = [new CognitoUserAttribute({
+      Name: "orange",
+      Value: $("#emailInputslider").val(),
+    })]
+      cognitoUser.updateAttributes(
+        cogattributes,
+        (err, results) => {
+          if (err) console.error(err);
+          console.log(results);
+        }
+      );
+    } else if ($("#userNameInput").val()) {
+      let cognitoUser = new CognitoUser({
+        Username: $("#userNameInput").val(),
+        Pool: userPool,
+      });
+      cognitoUser.updateAttributes(attributes, (err, results) => {
+        if (err) console.error(err);
+        console.log(results);
+      });
+    } else {
+      toastr.info("Please log in first")
+    }
+  }
+
+  function resendCognitoVerifyCode() {
+    var youruser = $("#userNameInput").val();
+    console.log("resendCognitoVerifyCode " + youruser);
+    const userData = {
+      Username: youruser,
+      Pool: userPool,
+    };
+    const cognitoUserResend = new CognitoUser(userData);
+    cognitoUserResend.resendConfirmationCode(function (err, result) {
+      // reject promise if confirmation code failed
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log("resend verification successful");
+
+      switchToVerificationCodeView();
+    });
   }
 
   /*
@@ -402,20 +656,23 @@ export default () => {
       if (err) {
         console.log(err.message);
       } else {
-        setcss(false)
+        setcss(false);
 
         window.localStorage.setItem(
           "sessionkey",
           AWS.config.credentials.sessionToken
         );
-        // window.localStorage.setItem("username", cognitoUser.username);
       }
     });
   }
 
   const LogoutButton = (
-    <div id={"logoutdiv"} >
-      <Tween from={{ x: "-700px", y:"200" }} to={{ x: "440px", y:"-140" }}>
+    <div id={"logoutdiv"}>
+      <Tween
+        from={{ x: "-700px", y: "200" }}
+        to={{ x: "80%", y: "-100" }}
+        duration={"2"}
+      >
         <div id="cognitologin">
           <div>Logged In as {cognitoUser && cognitoUser.username}</div>
           <div
@@ -433,7 +690,6 @@ export default () => {
 
   function getCurrentLoggedInSession() {
     var userPool = new CognitoUserPool(poolData);
-    // userPool = "test";
     cognitoUser = userPool.getCurrentUser();
 
     if (cognitoUser != null) {
@@ -443,59 +699,110 @@ export default () => {
         } else {
           console.log("session found logged in");
           switchToLoggedInView();
-          // setloggedinuser(true)
-          //  setlogged(true)
-          // idToken = session.getIdToken().getJwtToken();
           getCognitoIdentityCredentials();
         }
-
       });
-    } else {
-      toastr.info("Session expired. Please log in again.");
     }
   }
 
-    const handleClicklogout = async (e) => {
-        console.log("clicked");
-        $("#logoutdiv").toggle();
-        // setloginbox(!loginbox)
-    }
+  const handleClicklogout = async (e) => {
+    $("#logoutdiv").toggle();
+  };
 
   const handleClick = async (e) => {
     console.log("clicked");
     setshowloginform(!showloginform);
     setcss(!css);
-    // LoginViewer = loginform;
-    sleep(1000);
     switchToLogInView();
-    //   var mydisplay = display==true ? "inherit" : "none"
-    // document.getElementById("cognitologin").style.display = mydisplay
   };
 
-     if (cognitoUser) {var LoginViewer = LogoutButton; } else {var LoginViewer = loginform; sleep(1000) }
+  const handleslideClick = async (e) => {
+    console.log("clicked");
+    $("#slideout").toggleClass("on");
+  };
+
+  const emailchangehtml = (
+    <div>
+      <input
+        id="emailInputslider"
+        type="text"
+        className={"button"}
+        placeholder="Email"
+        style={{ display: "block" }}
+      />
+      <div
+        id="changeemailfunction"
+        onClick={() => changeemailfunction()}
+        type="text"
+        className={"button"}
+      >
+        Change Email Function
+      </div>
+    </div>
+  );
+
+  var handleChangeEmail = async (e) => {
+    console.log("change email clicked");
+    setshowemailchangeform(true);
+  };
+
+  if (cognitoUser) {
+    LoginViewer = LogoutButton;
+  } else {
+    LoginViewer = loginform;
+    sleep(1000);
+  }
 
   return (
-    <nav >
-            {showloginform && (
-          <div id={"cognitoparent"}>{LoginViewer}</div>
+    <nav>
+      {showloginform && (
+        <div id={"cognitoparent"} onClick={() => handleClicklogout()}>
+          {LoginViewer}
+        </div>
       )}
-      {css &&           <style>{`
+      {css && (
+        <style>{`
         #container > * {
            filter: blur(20px);
         }
-      `}</style>}
+      `}</style>
+      )}
 
-      <div id="nav-wrapper" >
+      <div
+        id="slidebutton"
+        onClick={() => handleslideClick()}
+        className="btn btn-default"
+      >
+        {" "}
+        <i className="material-icons prefix" id={"accountcircle"}>
+          account_circle
+        </i>
+      </div>
+
+      <div id="slideout">
+        <div id={"slideform"}>
+          <div>Account Details</div>
+          <div>{cognitoUser && cognitoUser.username}</div>
+          <input
+            className="btn btn-primary"
+            type="submit"
+            onClick={() => handleChangeEmail()}
+            value="Change Email"
+          ></input>
+          <div onClick={() => handleClick()}>Logout</div>
+          {showemailchangeform && emailchangehtml}
+        </div>
+      </div>
+
+      <div id="nav-wrapper">
         {cognitoUser ? (
           <div href="/">
-            <div onClick={() => handleClick()}>Logged In  {cognitoUser.username}</div>
-            <span onClick={() => handleClicklogout()}>Logout</span>
+            <div>Logged In {cognitoUser.username}</div>
+            <span onClick={() => handleClick()}>Logout</span>
           </div>
         ) : (
           <div>
-            <div onClick={() => handleClick()} style={{ paddingLeft: "15px" }}>
-              Sign In
-            </div>
+            <div onClick={() => handleClick()}>Sign In</div>
           </div>
         )}
       </div>

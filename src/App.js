@@ -1,28 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
-import Nav from './nav'
-import $ from "jquery";
+import "./App.css";
+import Nav from "./nav";
 
 function App() {
-
-
   return (
     <div className="App">
       <header className="App-header">
-                          <Nav/>
-        <h4>Header</h4>
-
+        <Nav />
+        <h4>Put Your Header Here</h4>
       </header>
-        <div id={'container'} >
-            <div id={'subcontainer'}>
-            <div>Your Content</div>
-            <div>Ideas</div>
-            <div>Ideas</div>
-            <div>Ideas</div>
-            <div>Ideas</div>
-
-                </div>
+      <div id={"container"}>
+        <div id={"subcontainer"}>
+          <div>Your Content</div>
+          <div>Ideas</div>
+          <div>Ideas</div>
+          <div>Ideas</div>
+          <div id={"flybox"}>Ideas</div>
         </div>
+      </div>
     </div>
   );
 }

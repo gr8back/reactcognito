@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+body {
+  overflow: hidden;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -14,8 +18,8 @@
 }
 
 .App-header {
-  background-color: cornflowerblue;
-  min-height: 10vh;
+  background-color: hsl(200, 100%, 25.1%);
+  min-height: 5vh;
   display: flex;
   flex-direction: column;
   /*align-items: center;*/
@@ -37,11 +41,10 @@
   }
 }
 
-
 #cognitoparent {
   width: 100vw;
   height: 100vh;
-  position: absolute
+  position: absolute;
 }
 
 #cognitologin {
@@ -53,8 +56,8 @@
   height: max-content;
   /*margin-left: auto;*/
   /*margin-right: auto;*/
-  top: calc((100vh — 500px)/2);
-  left: calc((100vw - 10vw)/2);
+  top: calc((50vh) / 2);
+  left: calc((100vw - 10vw) / 2);
   background-color: rgb(14, 132, 171, 0.5);
   border-radius: 10px;
   padding: 20px;
@@ -75,26 +78,98 @@
   padding: 10px;
 }
 
+@keyframes skew {
+  0% {
+    transform: skewX(20deg);
+  }
+  100% {
+    transform: skewX(-20deg);
+  }
+}
+
+#flybox {
+  display: inline-block;
+  background-color: #0074d9;
+  height: 100px;
+  width: 100px;
+  font-size: 1px;
+  padding: 1px;
+  color: white;
+  margin-right: 5px;
+  margin-left: 5px;
+  animation: App-logo-spin 3s infinite;
+  transform: App-logo-spin(20deg);
+  animation-direction: alternate;
+  opacity: 0.7;
+}
+
 #container {
-  font-size :3em;
+  font-size: 3em;
   color: white;
   height: 100vh;
-
 }
 
 #root {
-    position: relative;
+  position: relative;
 }
 
 #subcontainer {
-    background-image: url('./header4.jpg');
+  background-image: url("https://picsum.photos/1600/800?random=${i}");
   background-position: center;
   background-size: cover;
-    height: 100vh;
+  height: 100vh;
 }
 
 #loggedinas {
   color: red;
 }
 
+#accountcircle {
+  float:right;
+  padding-right: 20px
+}
 
+.slidecontainer {
+  margin-top: 20px;
+}
+
+#slidebutton {
+  position: absolute;
+  background-color: initial;
+      z-index: 10000;
+    right: 10px;
+}
+
+#slideout {
+  background: #dbe2e9;
+  color: #333;
+  position: fixed;
+  top: 0;
+  right: -520px;
+  width: 500px;
+  height: 100%;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+      border: groove;
+  border-width: 40px;
+}
+#slideout form {
+  display: block;
+  padding: 20px;
+
+}
+#slideout textarea {
+  display:block;
+  height: 100px;
+  margin-bottom: 6px;
+  width: 250px;
+}
+#slideout.on {
+  right: 0;
+}
+
+#slideform {
+
+}
