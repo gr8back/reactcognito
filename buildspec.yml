@@ -12,6 +12,7 @@ phases:
       - yarn add eslint-config-react-app
   build:
     commands:
+      - echo Building
       - yarn build
  # post_build:
  #   commands:
