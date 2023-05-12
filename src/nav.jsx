@@ -14,6 +14,7 @@ import { Tween } from "react-gsap";
 export default () => {
   const [css, setcss] = useState(false);
   const [showloginform, setshowloginform] = useState(false);
+    const [showverifyform, setshowverifyform] = useState(false);
   const [showemailchangeform, setshowemailchangeform] = useState(false);
   var region = "us-east-2";
   var userPoolId = "us-east-2_BhbqlLtIU";
@@ -76,8 +77,8 @@ export default () => {
     $("#verificationCodeInput").hide();
     $("#backtologin").show();
     $("#verifyCodeButton").hide();
-    $("#bucketNameInput").hide();
     $("#logOutButton").hide();
+    $("#forgotpassword").hide();
   }
 
   function switchToLogInView() {
@@ -95,10 +96,10 @@ export default () => {
     $("#resetpassword").hide();
     $("#logInButton").show();
     $("#resendverifycode").show();
+    $("#changeemail").toggle();
     $("#registerButton").hide();
     $("#verificationCodeInput").hide();
     $("#verifyCodeButton").hide();
-    $("#bucketNameInput").hide();
     $("#logOutButton").hide();
   }
 
@@ -109,24 +110,22 @@ export default () => {
     $("#passwordInput").hide();
     $("#userPhoneNumber").hide();
     $("#logOutButton").hide();
-    $("#bucketNameInput").show();
     $("#logOutButton").show();
   }
 
-  function switchtoForgotPasswordConfirmView() {
-    console.log("Switching to forgot password confirm view");
-    $("#emailInput").hide();
-    $("#userNameInput").show();
-    $("#passwordInput").show();
-    $("#userPhoneNumber").hide();
-    $("#logOutButton").hide();
-    $("#bucketNameInput").show();
-    $("#logOutButton").hide();
-    $("#logInButton").hide();
-    $("#notregisteryet").hide();
-    $("#forgotpassword").hide();
-    $("#resetpassword").show();
-  }
+  // function switchtoForgotPasswordConfirmView() {
+  //   console.log("Switching to forgot password confirm view");
+  //   $("#emailInput").hide();
+  //   $("#userNameInput").show();
+  //   $("#passwordInput").show();
+  //   $("#userPhoneNumber").hide();
+  //   $("#logOutButton").hide();
+  //   $("#logOutButton").hide();
+  //   $("#logInButton").hide();
+  //   $("#notregisteryet").hide();
+  //   $("#forgotpassword").hide();
+  //   $("#resetpassword").show();
+  // }
 
   function switchToNewPasswordInput() {
     console.log("Switching to new password input view");
@@ -137,7 +136,6 @@ export default () => {
     $("#passwordInput").show();
     $("#userPhoneNumber").hide();
     $("#logOutButton").hide();
-    $("#bucketNameInput").show();
     $("#verificationCodeInput").show();
     $("#confirmPasswordInput").show();
     $("#logOutButton").hide();
@@ -148,24 +146,24 @@ export default () => {
     $("#resetpasswordcognito").show();
   }
 
-  function changeemail() {
-    console.log("Switching to change password input view");
-    $("#passwordInput").val("");
-    $("#emailInput").hide();
-    $("#userNameInput").show();
-    $("#passwordInput").show();
-    $("#userPhoneNumber").hide();
-    $("#logOutButton").hide();
-    $("#bucketNameInput").hide();
-    $("#verificationCodeInput").hide();
-    $("#confirmPasswordInput").hide();
-    $("#logOutButton").hide();
-    $("#logInButton").hide();
-    $("#notregisteryet").hide();
-    $("#forgotpassword").hide();
-    $("#emailInput").show();
-    $("#resetpasswordcognito").hide();
-  }
+  // function changeemail() {
+  //   console.log("Switching to change password input view");
+  //   $("#passwordInput").val("");
+  //   $("#emailInput").hide();
+  //   $("#userNameInput").show();
+  //   $("#passwordInput").show();
+  //   $("#userPhoneNumber").hide();
+  //   $("#logOutButton").hide();
+  //   $("#bucketNameInput").hide();
+  //   $("#verificationCodeInput").hide();
+  //   $("#confirmPasswordInput").hide();
+  //   $("#logOutButton").hide();
+  //   $("#logInButton").hide();
+  //   $("#notregisteryet").hide();
+  //   $("#forgotpassword").hide();
+  //   $("#emailInput").show();
+  //   $("#resetpasswordcognito").hide();
+  // }
 
   const loginform = (
     <div id="cognitologin">
@@ -211,13 +209,6 @@ export default () => {
         style={{ display: "none" }}
       />
       <input
-        id="verificationCodeInput"
-        className={"button"}
-        type="text"
-        placeholder="Verification Code"
-        style={{ display: "none" }}
-      />
-      <input
         id="logInButton"
         type="text"
         defaultValue="Log In"
@@ -243,14 +234,6 @@ export default () => {
         type="Button"
         defaultValue="Log Out"
         onClick={() => logOut()}
-        style={{ display: "none" }}
-      />
-      <input
-        id="verifyCodeButton"
-        type="text"
-        className={"button"}
-        defaultValue="Verify"
-        onClick={() => verifyCode()}
         style={{ display: "none" }}
       />
       <input
@@ -280,11 +263,6 @@ export default () => {
         </span>
       </div>
       <div>
-        <span id="resendverifycode" onClick={() => resendCognitoVerifyCode()}>
-          Resend verify code?
-        </span>
-      </div>
-      <div>
         <span id="forgotpassword" onClick={() => forgotPassword()}>
           Forgot Password?
         </span>
@@ -296,21 +274,6 @@ export default () => {
           onClick={() => forgotPasswordReset()}
         >
           Reset Password
-        </span>
-      </div>
-      <div>
-        <span id="changeemail" onClick={() => changeemail()}>
-          Change Email
-        </span>
-      </div>
-      <div>
-        <span
-          id="changeemailfunction"
-          onClick={() => changeemailfunction()}
-          type="text"
-          className={"button"}
-        >
-          Change Email Function
         </span>
       </div>
     </div>
@@ -571,7 +534,7 @@ export default () => {
     );
   }
 
-  function changeemailfunction(email, username, password, phoneNumber) {
+  function changephonefunction(email, username, password, phoneNumber) {
     var attributeList = [];
 
     var dataEmail = {
@@ -616,7 +579,7 @@ export default () => {
     var youruser = $("#userNameInput").val();
     console.log("resendCognitoVerifyCode " + youruser);
     const userData = {
-      Username: youruser,
+      Username: cognitoUser.username,
       Pool: userPool,
     };
     const cognitoUserResend = new CognitoUser(userData);
@@ -627,8 +590,7 @@ export default () => {
         return;
       }
       console.log("resend verification successful");
-
-      switchToVerificationCodeView();
+      setshowverifyform(!showverifyform)
     });
   }
 
@@ -674,8 +636,7 @@ export default () => {
         <div id="cognitologin">
           <div>Logged In as {cognitoUser && cognitoUser.username}</div>
           <div
-            className={"button"}
-            type="Button"
+            className={"btn"}
             defaultValue="Log Out"
             onClick={() => logOut()}
           >
@@ -704,6 +665,8 @@ export default () => {
   }
 
   const handleClicklogout = async (e) => {
+    console.log("click logout")
+    setcss(!css)
     $("#logoutdiv").toggle();
   };
 
@@ -718,6 +681,7 @@ export default () => {
     console.log("clicked");
     setshowloginform(!showloginform);
     setcss(!css);
+    // await sleep(200)
     switchToLogInView();
   };
 
@@ -726,28 +690,47 @@ export default () => {
     $("#slideout").toggleClass("on");
   };
 
+  const verifyhtml = (
+    <div id={'verifyhtmlinput'}>
+      <input
+        id="verificationCodeInput"
+        className={"button"}
+        type="text"
+        placeholder="Verification Code"
+      />
+      <input
+        id="verifyCodeButton"
+        type="text"
+        className={"button"}
+        defaultValue="Verify"
+        onClick={() => verifyCode()}
+      />
+    </div>
+  );
+
   const emailchangehtml = (
     <div>
       <input
         id="emailInputslider"
         type="text"
         className={"button"}
-        placeholder="New Phone Number"
+        placeholder="Enter New Phone Number In this format : +14325551212"
         style={{ display: "block" }}
       />
       <div
         id="changeemailfunction"
-        onClick={() => changeemailfunction()}
+        className={'btn'}
+        onClick={() => changephonefunction()}
         type="text"
       >
-        Change Phone Number In this format : +14325551212
+        Confirm New Phone Number
       </div>
     </div>
   );
 
-  var handleChangeEmail = async (e) => {
-    console.log("change email clicked");
-    setshowemailchangeform(true);
+  var handleChangePhone = async (e) => {
+    console.log("change phone clicked");
+    setshowemailchangeform(!showemailchangeform);
   };
 
   if (cognitoUser) {
@@ -798,16 +781,26 @@ export default () => {
               <input
                 className="btn btn-primary"
                 type="submit"
-                onClick={() => handleChangeEmail()}
+                onClick={() => handleChangePhone()}
                 value="Change Phone Number"
               ></input>
+              <div>
+                <span
+                  id="resendverifycode"
+                  className="btn btn-primary"
+                  onClick={() => resendCognitoVerifyCode()}
+                >
+                  Resend verify code?
+                </span>
+              </div>
               <input
-                className={"button centeredbutton"}
+                id={"logoutbutton waves-effect waves-light btn"}
                 type="button"
                 onClick={() => handleSignInBox()}
                 value={"Logout"}
               />
               {showemailchangeform && emailchangehtml}
+              {showverifyform && verifyhtml}
             </div>
           )}
         </div>

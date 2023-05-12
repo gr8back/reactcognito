@@ -48,6 +48,7 @@ body {
 }
 
 #cognitologin {
+  font-size: 1rem;
   position: absolute;
   justify-content: center;
   z-index: 1000;
@@ -125,8 +126,8 @@ body {
 }
 
 #accountcircle {
-  float:right;
-  padding-right: 20px
+  float: right;
+  padding-right: 20px;
 }
 
 .slidecontainer {
@@ -136,17 +137,18 @@ body {
 #slidebutton {
   position: absolute;
   background-color: initial;
-      z-index: 10000;
-    right: 10px;
-
+  z-index: 10000;
+  right: 10px;
 }
 
-nav {    background-color: initial;}
+nav {
+  background-color: initial;
+}
 
 #loggedinasaccount {
   float: right;
-    padding: 1em;
-    font-size: 1rem;
+  padding: 1em;
+  font-size: 1rem;
 }
 
 .centeredbutton {
@@ -154,7 +156,7 @@ nav {    background-color: initial;}
 }
 
 .accounticon {
-    line-height: 20px;
+  line-height: 20px;
 }
 
 #slideout {
@@ -169,16 +171,16 @@ nav {    background-color: initial;}
   -moz-transition-duration: 0.3s;
   -o-transition-duration: 0.3s;
   transition-duration: 0.3s;
-      border: groove;
+  border: groove;
   border-width: 40px;
+  overflow-y: scroll;
 }
 #slideout form {
   display: block;
   padding: 20px;
-
 }
 #slideout textarea {
-  display:block;
+  display: block;
   height: 100px;
   margin-bottom: 6px;
   width: 250px;
@@ -187,6 +189,28 @@ nav {    background-color: initial;}
   right: 0;
 }
 
-#slideform {
+#registerButton,
+#logInButton {
+  background-color: indianred;
+}
 
+::placeholder {
+  color: red;
+  opacity: 1; /* Firefox */
+}
+
+#verifyhtmlinput {
+  padding: 40px;
+}
+
+#logoutbutton {
+  position: absolute;
+  bottom: 20px;
+  left: 20vh;
+}
+
+@media (max-width: 500px) {
+  #slideout {
+    width: 100%
+  }
 }
