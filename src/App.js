@@ -12,8 +12,8 @@ function App() {
         <div id={"subcontainer"}>
           <div>Your Content</div>
           <div>Ideas</div>
-          <div>Ideas</div>
-          <div>Ideas</div>
+          <div>Ideas!</div>
+          <div>Ideas!!</div>
           <div id={"flybox"}>Ideas</div>
         </div>
       </div>
