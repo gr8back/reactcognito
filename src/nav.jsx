@@ -15,16 +15,10 @@ export default () => {
   const [css, setcss] = useState(false);
   const [showloginform, setshowloginform] = useState(false);
   const [showemailchangeform, setshowemailchangeform] = useState(false);
-  const REACT_APP_REGION = "us-east-2";
-  const REACT_APP_userPoolId = "us-east-2_9gOOnd3xR";
-  const REACT_APP_clientId = "67l6l2fuptqdfsrntbho33sk3n";
-  const REACT_APP_identityPoolId =
-    "us-east-2:d3b6dca1-ae19-4711-8453-ebdb7560d6ee";
-
-  var userPoolId = REACT_APP_userPoolId;
-  var clientId = REACT_APP_clientId;
-  var region = REACT_APP_REGION;
-  var identityPoolId = REACT_APP_identityPoolId;
+  var region = "us-east-2";
+  var userPoolId = "us-east-2_BhbqlLtIU";
+  var clientId = "77h06jmsml3lleapphidqdoh8n";
+  var identityPoolId = "us-east-2:dce7d24a-b2a7-4e1a-b0b7-7f0a5685d8bc";
 
   var cognitoUser;
   var idToken;
@@ -588,18 +582,22 @@ export default () => {
     var attributes = new CognitoUserAttribute(dataEmail);
 
     if (cognitoUser) {
-      console.log("changing email to " + $("#emailInputslider").val());
-      const cogattributes = [new CognitoUserAttribute({
-      Name: "orange",
-      Value: $("#emailInputslider").val(),
-    })]
-      cognitoUser.updateAttributes(
-        cogattributes,
-        (err, results) => {
-          if (err) console.error(err);
-          console.log(results);
-        }
+      console.log(
+        "changing email to " +
+          $("#emailInputslider").val() +
+          "for " +
+          cognitoUser.username
       );
+      const cogattributes = [
+        new CognitoUserAttribute({
+          Name: "phone_number",
+          Value: $("#emailInputslider").val(),
+        }),
+      ];
+      cognitoUser.updateAttributes(cogattributes, (err, results) => {
+        if (err) console.error(err);
+        console.log(results);
+      });
     } else if ($("#userNameInput").val()) {
       let cognitoUser = new CognitoUser({
         Username: $("#userNameInput").val(),
@@ -610,7 +608,7 @@ export default () => {
         console.log(results);
       });
     } else {
-      toastr.info("Please log in first")
+      toastr.info("Please log in first");
     }
   }
 
@@ -709,6 +707,13 @@ export default () => {
     $("#logoutdiv").toggle();
   };
 
+  const handleSignInBox = async (e) => {
+    setshowloginform(!showloginform);
+    setcss(!css);
+    $("#slideout").toggleClass("on");
+    switchToLogInView();
+  };
+
   const handleClick = async (e) => {
     console.log("clicked");
     setshowloginform(!showloginform);
@@ -727,16 +732,15 @@ export default () => {
         id="emailInputslider"
         type="text"
         className={"button"}
-        placeholder="Email"
+        placeholder="New Phone Number"
         style={{ display: "block" }}
       />
       <div
         id="changeemailfunction"
         onClick={() => changeemailfunction()}
         type="text"
-        className={"button"}
       >
-        Change Email Function
+        Change Phone Number In this format : +14325551212
       </div>
     </div>
   );
@@ -773,8 +777,10 @@ export default () => {
         onClick={() => handleslideClick()}
         className="btn btn-default"
       >
-        {" "}
-        <i className="material-icons prefix" id={"accountcircle"}>
+        <i
+          className="large material-icons prefix accounticon"
+          id={"accountcircle"}
+        >
           account_circle
         </i>
       </div>
@@ -782,23 +788,37 @@ export default () => {
       <div id="slideout">
         <div id={"slideform"}>
           <div>Account Details</div>
-          <div>{cognitoUser && cognitoUser.username}</div>
-          <input
-            className="btn btn-primary"
-            type="submit"
-            onClick={() => handleChangeEmail()}
-            value="Change Email"
-          ></input>
-          <div onClick={() => handleClick()}>Logout</div>
-          {showemailchangeform && emailchangehtml}
+          <div>
+            {cognitoUser
+              ? cognitoUser.username
+              : "Please Log In to view account details"}
+          </div>
+          {cognitoUser && (
+            <div>
+              <input
+                className="btn btn-primary"
+                type="submit"
+                onClick={() => handleChangeEmail()}
+                value="Change Phone Number"
+              ></input>
+              <input
+                className={"button centeredbutton"}
+                type="button"
+                onClick={() => handleSignInBox()}
+                value={"Logout"}
+              />
+              {showemailchangeform && emailchangehtml}
+            </div>
+          )}
         </div>
       </div>
 
       <div id="nav-wrapper">
         {cognitoUser ? (
-          <div href="/">
-            <div>Logged In {cognitoUser.username}</div>
-            <span onClick={() => handleClick()}>Logout</span>
+          <div>
+            <div id={"loggedinasaccount"}>
+              Logged In as {cognitoUser.username}
+            </div>
           </div>
         ) : (
           <div>

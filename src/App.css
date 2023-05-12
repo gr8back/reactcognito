@@ -138,6 +138,23 @@ body {
   background-color: initial;
       z-index: 10000;
     right: 10px;
+
+}
+
+nav {    background-color: initial;}
+
+#loggedinasaccount {
+  float: right;
+    padding: 1em;
+    font-size: 1rem;
+}
+
+.centeredbutton {
+  margin: auto;
+}
+
+.accounticon {
+    line-height: 20px;
 }
 
 #slideout {
