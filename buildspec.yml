@@ -13,6 +13,7 @@ phases:
     commands:
       - echo Building
       - npm run build
+      - la -la
  # post_build:
  #   commands:
 #      - mv build/* ./
