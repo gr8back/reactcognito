@@ -1,0 +1,19 @@
+version: 0.2
+env:
+  variables:
+    REACT_APP_DEMO_VAR: 'demo'
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - npm install yarn
+      - yarn
+      - yarn add eslint-config-react-app
+  build:
+    commands:
+      - yarn build
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'build'
