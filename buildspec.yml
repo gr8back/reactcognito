@@ -13,9 +13,9 @@ phases:
   build:
     commands:
       - yarn build
-  post_build:
-    commands:
-      - mv build/* ./
+ # post_build:
+ #   commands:
+#      - mv build/* ./
 #      - rm -R build-output *.yml LICENSE README* .git*
 artifacts:
   files:
