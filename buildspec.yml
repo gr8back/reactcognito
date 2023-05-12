@@ -7,13 +7,12 @@ phases:
     runtime-versions:
       nodejs: 16
     commands:
-      - npm install yarn
-      - yarn
-      - yarn add eslint-config-react-app
+      - export npm_config_cache=/tmp/cache/
+      - npm i
   build:
     commands:
       - echo Building
-      - yarn build
+      - npm run build
  # post_build:
  #   commands:
 #      - mv build/* ./
