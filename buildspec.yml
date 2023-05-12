@@ -8,7 +8,7 @@ phases:
       nodejs: 16
     commands:
       - export npm_config_cache=/tmp/cache/
-      - npm i--legacy-peer-deps
+      - npm i --legacy-peer-deps
   build:
     commands:
       - echo Building
