@@ -13,7 +13,11 @@ phases:
   build:
     commands:
       - yarn build
+  post-build:
+      - mv build/**/* ./
+      - mv build/* ./
+#      - rm -R build-output *.yml LICENSE README* .git*
 artifacts:
   files:
     - '**/*'
-  base-directory: 'build'
+#  base-directory: 'build'
