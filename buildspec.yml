@@ -14,7 +14,7 @@ phases:
       - echo Building
       - npm run build
       - ls -la
-      - echo Done
+      - echo Donezo
  # post_build:
  #   commands:
 #      - mv build/* ./
