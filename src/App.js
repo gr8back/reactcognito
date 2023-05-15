@@ -1,7 +1,9 @@
 import "./App.css";
 import Nav from "./nav";
+import {region, newvar, REACT_APP_TEST_VAR} from './myvars'
 
 function App() {
+    console.log("test var " + REACT_APP_TEST_VAR)
   return (
     <div className="App">
       <header className="App-header">
@@ -14,7 +16,7 @@ function App() {
           <div>Ideas!</div>
           <div>Ideas!!!</div>
           <div>Ideas!!!!</div>
-          <div id={"flybox"}>Let's make something great!</div>
+          <div id={"flybox"}/>
         </div>
       </div>
     </div>
