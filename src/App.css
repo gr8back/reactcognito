@@ -161,6 +161,8 @@ nav {
 
 #slideout {
   background: #dbe2e9;
+      padding-top: 20px;
+    margin-top: 42px;
   color: #333;
   position: fixed;
   top: 0;
@@ -207,6 +209,10 @@ nav {
   position: absolute;
   bottom: 20px;
   left: 20vh;
+}
+
+#xclose {
+  line-height: .3em;
 }
 
 @media (max-width: 500px) {

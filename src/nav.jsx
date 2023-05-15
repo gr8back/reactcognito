@@ -10,16 +10,17 @@ import {
 import AWS from "aws-sdk";
 import "./toastr2.css";
 import { Tween } from "react-gsap";
+import { region, userPoolId, clientId, identityPoolId} from "./myvars";
 
 export default () => {
   const [css, setcss] = useState(false);
   const [showloginform, setshowloginform] = useState(false);
     const [showverifyform, setshowverifyform] = useState(false);
   const [showemailchangeform, setshowemailchangeform] = useState(false);
-  var region = "us-east-2";
-  var userPoolId = "us-east-2_BhbqlLtIU";
-  var clientId = "77h06jmsml3lleapphidqdoh8n";
-  var identityPoolId = "us-east-2:dce7d24a-b2a7-4e1a-b0b7-7f0a5685d8bc";
+  // var region ;
+  // var userPoolId;
+  // var clientId;
+  // var identityPoolId ;
 
   var cognitoUser;
   var idToken;
@@ -244,6 +245,21 @@ export default () => {
         onClick={() => forgotPasswordReset($("#passwordInput").val())}
         style={{ display: "none" }}
       />
+            <input
+        id="verificationCodeInput"
+        className={"button"}
+        type="text"
+        placeholder="Verification Code"
+                style={{ display: "none" }}
+      />
+      <input
+        id="verifyCodeButton"
+        type="text"
+        className={"button"}
+        defaultValue="Verify"
+        onClick={() => verifyCode()}
+                style={{ display: "none" }}
+      />
       <div>
         <span
           id="backtologin"
@@ -360,46 +376,43 @@ export default () => {
     }
   }
 
-  function forgotPassword(
-    username,
-    onSuccess,
-    onFailure,
-    inputVerificationCode
-  ) {
-    let cognitoUser = new CognitoUser({
-      Username: $("#userNameInput").val(),
-      Pool: userPool,
-    });
+  function forgotPassword() {
 
-    cognitoUser.forgotPassword({
-      onSuccess: function (result) {
-        console.log("successful password reset " + JSON.stringify(result));
-        switchToNewPasswordInput();
-      },
-      onFailure: function (err) {
-        console.log("failed to reset password" + err);
-        switchToLogInView();
-      },
-      inputVerificationCode: function (data) {
-        console.log("input code " + JSON.stringify(data));
-        switchToNewPasswordInput();
-      },
-    });
+    if ($("#userNameInput").val()) {
+      let cognitoUser = new CognitoUser({
+        Username: $("#userNameInput").val(),
+        Pool: userPool,
+      });
+
+      cognitoUser.forgotPassword({
+        onSuccess: function (result) {
+          console.log("successfully send  password reset code");
+          toastr.success("Verification Code sent")
+          switchToNewPasswordInput();
+        },
+        onFailure: function (err) {
+          console.log("failed to reset password" + err);
+          toastr.error("failed to reset password" + err)
+          switchToLogInView();
+        },
+        inputVerificationCode: function (data) {
+          console.log("input code " + JSON.stringify(data));
+          switchToNewPasswordInput();
+        },
+      });
+    } else {
+      toastr.error("Please input your username")
+    }
   }
 
-  function forgotPasswordReset(
-    username,
-    verificationCode,
-    newPassword,
-    callback
-  ) {
+  function forgotPasswordReset() {
     try {
       let cognitoUser = new CognitoUser({
         Username: $("#userNameInput").val(),
         Pool: userPool,
       });
-      console.log("cognitouer " + JSON.stringify(cognitoUser));
-      console.log("newpasswor is " + $("#confirmPasswordInput").val());
+      console.log("cognitouser " + JSON.stringify(cognitoUser));
+      console.log("newpassword is " + $("#confirmPasswordInput").val());
       cognitoUser.confirmPassword(
         $("#verificationCodeInput").val(),
         $("#confirmPasswordInput").val(),
@@ -634,6 +647,7 @@ export default () => {
         duration={"2"}
       >
         <div id="cognitologin">
+          <div id={'xclose'} onClick={()=>{handleClicklogout()}}>X</div>
           <div>Logged In as {cognitoUser && cognitoUser.username}</div>
           <div
             className={"btn"}
@@ -667,7 +681,8 @@ export default () => {
   const handleClicklogout = async (e) => {
     console.log("click logout")
     setcss(!css)
-    $("#logoutdiv").toggle();
+    // $("#logoutdiv").toggle();
+        setshowloginform(!showloginform);
   };
 
   const handleSignInBox = async (e) => {
@@ -743,7 +758,7 @@ export default () => {
   return (
     <nav>
       {showloginform && (
-        <div id={"cognitoparent"} onClick={() => handleClicklogout()}>
+        <div id={"cognitoparent"} >
           {LoginViewer}
         </div>
       )}

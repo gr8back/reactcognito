@@ -1,9 +1,7 @@
 import "./App.css";
 import Nav from "./nav";
-import {region, newvar, REACT_APP_TEST_VAR} from './myvars'
 
 function App() {
-    console.log("test var " + REACT_APP_TEST_VAR)
   return (
     <div className="App">
       <header className="App-header">
