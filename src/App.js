@@ -14,7 +14,7 @@ function App() {
           <div>Ideas!</div>
           <div>Ideas!!!</div>
           <div>Ideas!!!!</div>
-          <div id={"flybox"}>Ideas!!!!!!!!!!!!!!</div>
+          <div id={"flybox"}>Let's make something great!</div>
         </div>
       </div>
     </div>
