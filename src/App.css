@@ -215,6 +215,14 @@ nav {
   line-height: .3em;
 }
 
+#logoutmaterial {
+      size: 1rem;
+    font-size: 1rem;
+    width: max-content;
+    display: initial;
+    height: max-content;
+}
+
 @media (max-width: 500px) {
   #slideout {
     width: 100%
