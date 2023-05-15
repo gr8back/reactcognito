@@ -10,12 +10,12 @@ import {
 import AWS from "aws-sdk";
 import "./toastr2.css";
 import { Tween } from "react-gsap";
-import { region, userPoolId, clientId, identityPoolId} from "./myvars";
+import { region, userPoolId, clientId, identityPoolId } from "./myvars";
 
 export default () => {
   const [css, setcss] = useState(false);
   const [showloginform, setshowloginform] = useState(false);
-    const [showverifyform, setshowverifyform] = useState(false);
+  const [showverifyform, setshowverifyform] = useState(false);
   const [showemailchangeform, setshowemailchangeform] = useState(false);
   // var region ;
   // var userPoolId;
@@ -245,12 +245,12 @@ export default () => {
         onClick={() => forgotPasswordReset($("#passwordInput").val())}
         style={{ display: "none" }}
       />
-            <input
+      <input
         id="verificationCodeInput"
         className={"button"}
         type="text"
         placeholder="Verification Code"
-                style={{ display: "none" }}
+        style={{ display: "none" }}
       />
       <input
         id="verifyCodeButton"
@@ -258,7 +258,7 @@ export default () => {
         className={"button"}
         defaultValue="Verify"
         onClick={() => verifyCode()}
-                style={{ display: "none" }}
+        style={{ display: "none" }}
       />
       <div>
         <span
@@ -377,7 +377,6 @@ export default () => {
   }
 
   function forgotPassword() {
-
     if ($("#userNameInput").val()) {
       let cognitoUser = new CognitoUser({
         Username: $("#userNameInput").val(),
@@ -387,12 +386,12 @@ export default () => {
       cognitoUser.forgotPassword({
         onSuccess: function (result) {
           console.log("successfully send  password reset code");
-          toastr.success("Verification Code sent")
+          toastr.success("Verification Code sent");
           switchToNewPasswordInput();
         },
         onFailure: function (err) {
           console.log("failed to reset password" + err);
-          toastr.error("failed to reset password" + err)
+          toastr.error("failed to reset password" + err);
           switchToLogInView();
         },
         inputVerificationCode: function (data) {
@@ -401,7 +400,7 @@ export default () => {
         },
       });
     } else {
-      toastr.error("Please input your username")
+      toastr.error("Please input your username");
     }
   }
 
@@ -603,7 +602,7 @@ export default () => {
         return;
       }
       console.log("resend verification successful");
-      setshowverifyform(!showverifyform)
+      setshowverifyform(!showverifyform);
     });
   }
 
@@ -647,7 +646,14 @@ export default () => {
         duration={"2"}
       >
         <div id="cognitologin">
-          <div id={'xclose'} onClick={()=>{handleClicklogout()}}>X</div>
+          <div
+            id={"xclose"}
+            onClick={() => {
+              handleClicklogout();
+            }}
+          >
+            X
+          </div>
           <div>Logged In as {cognitoUser && cognitoUser.username}</div>
           <div
             className={"btn"}
@@ -679,10 +685,10 @@ export default () => {
   }
 
   const handleClicklogout = async (e) => {
-    console.log("click logout")
-    setcss(!css)
+    console.log("click logout");
+    setcss(!css);
     // $("#logoutdiv").toggle();
-        setshowloginform(!showloginform);
+    setshowloginform(!showloginform);
   };
 
   const handleSignInBox = async (e) => {
@@ -706,7 +712,7 @@ export default () => {
   };
 
   const verifyhtml = (
-    <div id={'verifyhtmlinput'}>
+    <div id={"verifyhtmlinput"}>
       <input
         id="verificationCodeInput"
         className={"button"}
@@ -734,7 +740,7 @@ export default () => {
       />
       <div
         id="changeemailfunction"
-        className={'btn'}
+        className={"btn"}
         onClick={() => changephonefunction()}
         type="text"
       >
@@ -757,11 +763,7 @@ export default () => {
 
   return (
     <nav>
-      {showloginform && (
-        <div id={"cognitoparent"} >
-          {LoginViewer}
-        </div>
-      )}
+      {showloginform && <div id={"cognitoparent"}>{LoginViewer}</div>}
       {css && (
         <style>{`
         #container > * {
