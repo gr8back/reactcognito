@@ -13,7 +13,7 @@ phases:
     commands:
       - echo Building
       - echo REACT_APP_TEST_VAR=${TEST} >> myvars.js
-      - echo export { REACT_APP_TEST_VAR } >> myvars.js
+      - echo `export { REACT_APP_TEST_VAR }` >> myvars.js
       - npm run build
       - ls -la
       - echo Donezo
