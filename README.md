@@ -1,59 +1,34 @@
-# Getting Started with Create React App
+# Getting Started 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## What is this project
 
-In the project directory, you can run:
+This is a simple starting point for a larger application.  This is a react app with AWS
+cognito for user authentication.  There are lots of options for Cognito user pools, so, thats
+why I say this is a starting point.   
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+After inputting your AWS Cognito credentials, client-id, pool-id, identity-pool and region,
+the cognito app should work.   It's really just one additional component - nav.jsx.  
 
 ### `customize`
 
+Using toastr for notfications, but, obviously this can be changed to whatever is desired.
 Customize the tostr error and info messages to more user friendly ones
 
-### `npm run build`
+### `attributes can be added`
 
-Fill in environment variables in the first few lines of the nav.jsx file.   
-These will be your AWS cognito user pool, client id and identity pool if you are using one.
+You can add attributes to your Cognito users in user pools, I've included one in the slide-out, that
+will add a phone number.  Its pretty easy to adjust the attribute to something else.  Consult
+the Cognito documentation for available attributes.
 
 ### `uses a slider for account details`
 
 **Note: This is a starting point for an application.  Will be adding basic CRUD functionality with Amplify GraphQL endpoint**
+Dont' forget that your client_id is located in the 'app integration screen' in your user
+pool.  If you don't change that, nothing will work.
 
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Note: Multiple users can sign-up with the same email, but, then some functionality will
+be lost.  You may see 400 and 500 http errors if there are multiple users with same email.
