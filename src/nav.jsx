@@ -23,7 +23,7 @@ export default () => {
   var cognitoUser;
   var idToken;
   var LoginViewer;
- const isDesktop = useMediaQuery('(min-width: 960px)');
+ const isDesktop = useMediaQuery('(max-width: 500px)');
 
   var poolData = {
     UserPoolId: userPoolId,
