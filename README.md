@@ -29,7 +29,7 @@ Customize the tostr error and info messages to more user friendly ones
 This app uses Materialize.css for some CSS features.  I've also added React-Greensock for some additional 
 animation features, that really haven't been built out yet.  
 
-Also added a window resize overserver file as 'mediaquery.js' that returns true or false if the media query
+Also added a window resize observer file as 'mediaquery.js' that returns true or false if the media query
 passed to it passes or fails.  This was required to adjust the react-gsap logout animation on mobile.  Building
 out a larger project, this will be useful for doing screen size sensitive components.
 
