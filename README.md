@@ -2,6 +2,11 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Live Demo
+Check out the live demo from my S3 Bucket
+
+http://reactcognito.s3-website.us-east-2.amazonaws.com/
+
 ## What is this project
 
 This is a simple starting point for a larger application.  This is a react app with AWS
