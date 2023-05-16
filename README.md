@@ -10,21 +10,21 @@ why I say this is a starting point.
 
 ### `npm start`
 
-After inputting your AWS Cognito credentials, client-id, pool-id, identity-pool and region,
+After inputting your AWS Cognito credentials: client-id, pool-id, identity-pool and region,
 the cognito app should work.   It's really just one additional component - nav.jsx.  
 
-### `customize`
+### `Notifications`
 
 Using toastr for notfications, but, obviously this can be changed to whatever is desired.
 Customize the tostr error and info messages to more user friendly ones
 
-### `attributes can be added`
+### `Attributes can be added`
 
 You can add attributes to your Cognito users in user pools, I've included one in the slide-out, that
 will add a phone number.  Its pretty easy to adjust the attribute to something else.  Consult
 the Cognito documentation for available attributes.
 
-### `uses a slider for account details`
+### `Uses a slider for account details`
 
 **Note: This is a starting point for an application.  Will be adding basic CRUD functionality with Amplify GraphQL endpoint**
 Dont' forget that your client_id is located in the 'app integration screen' in your user
