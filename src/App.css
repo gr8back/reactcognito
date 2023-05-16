@@ -236,4 +236,7 @@ nav {
   top:-7px;
 
 }
+  #cognitologin {
+        left: calc((100vw - 10vw) / 4);
+  }
 }

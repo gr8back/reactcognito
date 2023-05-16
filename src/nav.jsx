@@ -9,8 +9,10 @@ import {
 } from "amazon-cognito-identity-js";
 import AWS from "aws-sdk";
 import "./toastr2.css";
+import gsap from 'gsap'
 import { Tween } from "react-gsap";
 import { region, userPoolId, clientId, identityPoolId } from "./myvars";
+import useMediaQuery from "./mediaquery";
 
 export default () => {
   const [css, setcss] = useState(false);
@@ -21,6 +23,7 @@ export default () => {
   var cognitoUser;
   var idToken;
   var LoginViewer;
+ const isDesktop = useMediaQuery('(min-width: 960px)');
 
   var poolData = {
     UserPoolId: userPoolId,
@@ -537,12 +540,42 @@ export default () => {
     });
   }
 
+
   const LogoutButton = (
     <div id={"logoutdiv"}>
       <Tween
         from={{ x: "-700px", y: "200" }}
         to={{ x: "80%", y: "-100" }}
         duration={"2"}
+      >
+        <div id="cognitologin">
+          <div
+            id={"xclose"}
+            onClick={() => {
+              handleClicklogout();
+            }}
+          >
+            X
+          </div>
+          <div>Logged In as {cognitoUser && cognitoUser.username}</div>
+          <div
+            className={"btn"}
+            defaultValue="Log Out"
+            onClick={() => logOut()}
+          >
+            Logout
+          </div>
+        </div>
+      </Tween>
+    </div>
+  );
+
+    const LogoutMobile = (
+    <div id={"logoutdiv"}>
+      <Tween
+        from={{ x: "-300px", y: "200" }}
+        to={{ x: "10px", y: "-100" }}
+        duration={"1"}
       >
         <div id="cognitologin">
           <div
@@ -647,7 +680,7 @@ export default () => {
   };
 
   if (cognitoUser) {
-    LoginViewer = LogoutButton;
+     {isDesktop ? LoginViewer =LogoutButton : LoginViewer =LogoutMobile}
   } else {
     LoginViewer = loginform;
     sleep(1000);
@@ -732,6 +765,7 @@ export default () => {
           </div>
         )}
       </div>
+
     </nav>
   );
 };
